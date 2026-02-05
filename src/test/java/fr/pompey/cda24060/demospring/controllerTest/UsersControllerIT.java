@@ -35,6 +35,6 @@ public class UsersControllerIT {
     private void performGetAllUsersRequest() throws Exception {
         mockMvc.perform(get("/all-users"))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) jsonPath("$[0].firstname", is("Julien")));
+                .andExpect(jsonPath("$[0].firstname", is("Julien")));
     }
 }
