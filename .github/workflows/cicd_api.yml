@@ -25,8 +25,6 @@ jobs:
           --health-timeout=5s
           --health-retries=3
           
-      
-
     steps:
       # test d'attente de mise en service du conteneur MySQL
       - name: wait_for_MySQL_to_be_ready
@@ -37,6 +35,8 @@ jobs:
       # 1. Checkout du code recopie du depot dans executeur
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       # 2. Setup JDK 21
       - name: Set up JDK 21
@@ -45,42 +45,27 @@ jobs:
           java-version: 21
           distribution: temurin
 
-      # 3. Cache Maven
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2
-
-      
-
       - name: Create_Database_from_script
         run: mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }} < infra/mysql/script.sql
 
-      # 4. Tests unitaires (rapides)
-      - name: Run unit tests
-        run: mvn -B test -Dtest=*Test
-
-      # 5. Tests d'intégration avec MySQL
-      - name: Run integration tests
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/${{ secrets.DB_NAME }}
-          SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_NAME }}
-          SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD}}
-        run: mvn -B verify -DskipTests=false -Dtest=*IT
-
-      # 6. SonarCloud (optionnel)
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
         with:
-          args: >
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
-      # 7. Build Maven et stockage de l'artefact
-      - name: Build Maven package
-        run: mvn clean package -DskipTests
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=marjorie40_demoSpring
 
       - name: Upload artifact
         uses: actions/upload-artifact@v5
