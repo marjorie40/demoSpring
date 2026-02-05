@@ -28,9 +28,15 @@ jobs:
       
 
     steps:
+      # test d'attente de mise en service du conteneur MySQL
+      - name: wait_for_MySQL_to_be_ready
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" -P"3306" --silent; do
+          sleep 1
+          done
       # 1. Checkout du code recopie du depot dans executeur
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 2. Setup JDK 21
       - name: Set up JDK 21
@@ -48,12 +54,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      # test d'attente de mise en service du conteneur MySQL
-      - name: wait_for_MySQL_to_be_ready
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"3306" --silent; do
-          sleep 1
-          done
+      
 
       - name: Create_Database_from_script
         run: mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }} < infra/mysql/script.sql
