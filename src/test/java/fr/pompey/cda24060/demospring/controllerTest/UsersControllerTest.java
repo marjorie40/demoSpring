@@ -1,7 +1,7 @@
 package fr.pompey.cda24060.demospring.controllerTest;
 
 
-import fr.pompey.cda24060.demospring.controller.UsersController;
+
 import fr.pompey.cda24060.demospring.service.UsersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,6 @@ public class UsersControllerTest {
         when(usersService.getAllUsers()).thenReturn(List.of());
 
         // test du controleur
-        mockMvc.perform(get("/users"));
-        //.andExpect(status().isOk())
+        mockMvc.perform(get("/all-users")).andExpect(status().isOk());
     }
 }

@@ -15,8 +15,8 @@ public class UsersService {
     @Autowired
     private UsersRepository usersRepository;
 
-    public Optional<Users> getUsers(Integer idUsers){
-        return usersRepository.findById(idUsers);
+    public Optional<Users> getUsers(Integer id_users){
+        return usersRepository.findById(id_users);
     }
 
     public Iterable<Users> getAllUsers(){

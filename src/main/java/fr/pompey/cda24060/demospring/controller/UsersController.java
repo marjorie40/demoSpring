@@ -8,24 +8,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-
 public class UsersController {
 
     @Autowired
     private UsersService usersService;
 
     @PostMapping("/users")
-    public Users createusers (@RequestBody Users users) {
+    public Users createUsers (@RequestBody Users users) {
         return usersService.saveUsers(users);
     }
 
-    @GetMapping("all-users")
+    @GetMapping("/all-users")
     public Iterable<Users> getAllUsers(){
         return usersService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")
-    public Users getUserById (@PathVariable("id)") Integer id){
+    public Users getUserById (@PathVariable("id") Integer id){
         Optional<Users> users =usersService.getUsers(id);
         return users.orElse(null);
     }
