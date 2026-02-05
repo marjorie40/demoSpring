@@ -13,13 +13,13 @@ public class DemoSpringApplication {
         SpringApplication.run(DemoSpringApplication.class, args);
     }
 
-    @Component
-    public class StartupCheck {
-
-        @PostConstruct
-        public void check() {
-            System.out.println(">>> CONTEXTE WEB ACTIF <<<");
-        }
-    }
+//    @Component
+//    public class StartupCheck {
+//
+//        @PostConstruct
+//        public void check() {
+//            System.out.println(">>> CONTEXTE WEB ACTIF <<<");
+//        }
+//    }
 
 }

@@ -16,7 +16,7 @@ jobs:
         image: mysql:8
         env:
           MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-          MYSQL_USER: ${{ secrets.DB_NAME }}
+          MYSQL_USER: ${{ secrets.DB_USER }}
           MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD}}
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD}}
         ports:
@@ -56,7 +56,7 @@ jobs:
       - name: Run integration tests
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/${{ secrets.DB_NAME }}
-          SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_NAME }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USER }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD}}
         run: mvn -B verify -DskipTests=false -Dtest=*IT
 
@@ -77,3 +77,15 @@ jobs:
           name: my-app-jar
           path: target/*.jar
           retention-days: 1
+
+  Team_Notification:
+    name: MS Teams Deploy Card
+    runs-on: ubuntu-latest
+    needs: docker-build-image-api
+    steps:
+      #nouveau step
+      - uses: dchourasia/ms-teams-notification@1.0
+        if : always()
+        with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
