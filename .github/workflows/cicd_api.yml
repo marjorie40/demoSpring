@@ -16,7 +16,7 @@ jobs:
         image: mysql:8
         env:
           MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-          MYSQL_USER: ${{ secrets.DB_USER }}
+          MYSQL_USER: ${{ secrets.DB_NAME }}
           MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD}}
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD}}
         ports:
@@ -56,7 +56,7 @@ jobs:
       - name: Run integration tests
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/${{ secrets.DB_NAME }}
-          SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USER }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_NAME }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD}}
         run: mvn -B verify -DskipTests=false -Dtest=*IT
 
