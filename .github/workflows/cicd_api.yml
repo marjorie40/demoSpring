@@ -74,17 +74,15 @@ jobs:
           path: target/*.jar
           retention-days: 1
 
-    Team_Notification:
-      - name: MS Teams Deploy Card
-        runs-on: ubuntu-latest
-        needs: docker-build-image-api
-
-        steps:
-
-          - uses: dchourasia/ms-teams-notification@1.0 #or "./" dans un set-up local
-            if: always()
-            with:
-              github-token: ${{ github.token }}
-              webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+Team_Notification:
+  runs-on: ubuntu-latest
+  needs: docker-build-image-api
+  if: always()
+  steps:
+    - name: MS Teams Deploy Card
+      uses: dchourasia/ms-teams-notification@1.0 #or "./" dans un set-up local
+      with:
+        github-token: ${{ github.token }}
+        webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
 
 
