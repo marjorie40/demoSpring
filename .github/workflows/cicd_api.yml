@@ -26,10 +26,10 @@ jobs:
           --health-retries=3
 
     steps:
-      # test d'attente de mise en service du conteneur MySQL
+      # test d'attente de mise en service du conteneur MySQL ping pointe vers lui meme peut mettre le nom conteneur mysql
       - name: wait_for_MySQL_to_be_ready
         run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"3306" --silent; do
+          while ! mysqladmin ping -h"127.0.0.1" -P"3306" --silent; do  
           sleep 1
           done
       # 1. Checkout du code recopie du depot dans executeur
@@ -65,15 +65,26 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=marjorie40_demoSpring
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=marjorie40_demoSpring #verify important
 
       - name: Upload artifact
         uses: actions/upload-artifact@v5
         with:
-          name: my-app-jar
+          name: my-app-jar  #name important pour la seconde phase Docker automatisation
           path: target/*.jar
           retention-days: 1
 
+      #
+      - name: Deploy_Allure_Report_to_GitHub_Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PERSONAL_TOKEN_ALLURE }}
+          publish_dir: target/site/allure-maven-plugin  #emplacement /site va etre créé ou il faut retirer cet emplacement ?
+          destination_dir: allure-report
+          keep_files: false
+
+  #notifications sur canal Teams DEVOPS notifications-test
   Team_Notification:
     runs-on: ubuntu-latest
     needs: build
