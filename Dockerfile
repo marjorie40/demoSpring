@@ -1,5 +1,5 @@
 # Image runtime Java 21 jre OK mais mieux si on utilise :21-jdk
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jdk
 
 # Repertoire de travail
 WORKDIR /app
