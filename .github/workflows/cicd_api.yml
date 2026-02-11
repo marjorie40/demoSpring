@@ -125,9 +125,9 @@ steps:
     with:
       name: my-app-jar
 
-  # optionnel : juste pour controle
-  - name: List files in the repository
-    run: ls ${{ github.workspace }}
+#  # optionnel : juste pour controle
+#  - name: List files in the repository
+#    run: ls ${{ github.workspace }}
 
   # construction de l'image docker et push sur dockerHub
   - name: Build and push
