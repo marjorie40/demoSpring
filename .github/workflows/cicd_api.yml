@@ -96,7 +96,7 @@ jobs:
           github-token: ${{ github.token }}
           webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
 
-  Docker-build-image-api:
+  docker-build-image-api:
     # verifie que le declenchement provient de la branche main
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
