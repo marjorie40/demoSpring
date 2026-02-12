@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
 # Copier le jar genere
-COPY target/demoSpring-0.0.1-SNAPSHOT.jar api.jar
+COPY demoSpring-0.0.1-SNAPSHOT.jar api.jar
 
 # Exposer le port de l'API
 EXPOSE 9000
