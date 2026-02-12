@@ -75,7 +75,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_TOKEN_ALLURE }}
-          publish_dir: site/allure-maven-plugin  #emplacement faire mvn site pour push retrait du :target/  ?
+          publish_dir: target/site/allure-maven-plugin  #emplacement faire mvn site pour push retrait du :target/  ?
           destination_dir: allure-report
           keep_files: false
 
