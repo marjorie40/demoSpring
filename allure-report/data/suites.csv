@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Feb 12 09:49:14 UTC 2026","Thu Feb 12 09:49:14 UTC 2026","140","","fr.pompey.cda24060.demospring.controllerTest.UsersControllerTest","","fr.pompey.cda24060.demospring.controllerTest.UsersControllerTest","getUsersTest","getUsersTest()",""
+"passed","Thu Feb 12 09:49:22 UTC 2026","Thu Feb 12 09:49:23 UTC 2026","700","","fr.pompey.cda24060.demospring.controllerTest.UsersControllerIT","","fr.pompey.cda24060.demospring.controllerTest.UsersControllerIT","getUsersTest","getUsersTest()","Test de récupération de la listes des utilisateurs (users)"
+"passed","Thu Feb 12 09:49:17 UTC 2026","Thu Feb 12 09:49:17 UTC 2026","4","","fr.pompey.cda24060.demospring.DemoSpringApplicationTests","","fr.pompey.cda24060.demospring.DemoSpringApplicationTests","contextLoads","contextLoads()",""
