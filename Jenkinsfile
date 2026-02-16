@@ -64,6 +64,24 @@ pipeline {
                 }
             }
         }
+        // generer le rapport de tests via allure
+        stage('Generate Allure Report') {
+            steps {
+                bat 'mvn allure:report'
+            }
+        }
+        post {
+            always {
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'target/allure-results']] // ? n'est pas dans target ici, faut-il :allure-results
+                    ])
+            }
+        }
+
     }
 
 }
