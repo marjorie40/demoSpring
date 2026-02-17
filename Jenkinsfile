@@ -32,7 +32,7 @@ pipeline {
         stage('Build Maven') {
             steps {
                 // package du projet -Dspring.profiles.active=jenkins
-                bat 'mvn clean package'
+                bat 'mvn clean package -Dspring.profiles.active=jenkins'
             }
         }
 
