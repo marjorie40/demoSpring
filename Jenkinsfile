@@ -33,6 +33,7 @@ pipeline {
             steps {
                 // package du projet -Dspring.profiles.active=jenkins
                 bat 'mvn clean package -Dspring.profiles.active=jenkins'
+                bat 'dir target' //verifier que le JAR est produit
             }
         }
 
