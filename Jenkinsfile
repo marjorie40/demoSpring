@@ -41,7 +41,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('marjorie40/apispringboot2026', '-f Dockerfile .')
+                    docker.build('marjorie40/apispringboot2026:latest', '-f Dockerfile .')
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
                 // info de connexion credentials dans Jenkins
                 script {
                     docker.withRegistry('', registryCredential) {
-                        docker.image('marjorie40/apispringboot2026').push()
+                        docker.image('marjorie40/apispringboot2026:latest').push()
                     }
                 }
             }
