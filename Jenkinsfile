@@ -9,7 +9,7 @@ pipeline {
         // decla des outils a utiliser par Jenkins
         tools {
             maven 'maven3' //probleme ?pas d'installe de maven remplace maven3
-            jdk 'JDK21'
+            jdk 'JDK 21'
     }
     // declaration des stages
     stages {
