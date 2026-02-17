@@ -1,14 +1,14 @@
 pipeline {
     agent any
-    environnement {
+    environment {  //probleme ?
     // nom image DockerHub
         registry = "marjorie40/apispringboot2026"
         registryCredential = 'DOCKERHUB_FORJ'
-        dockerImage = ''
+        dockerImage = 'apispringboot2026'  //vide remplace
         }
         // decla des outils a utiliser par Jenkins
         tools {
-            maven 'maven'
+            maven 'maven3' //probleme ?pas d'installe de maven remplace maven3
             jdk 'JDK21'
     }
     // declaration des stages
@@ -45,7 +45,7 @@ pipeline {
             }
         }
         // push de l'image dans le dockerHub
-        stage('Push to Docker Hub')
+        stage('Push to Docker Hub') {
             steps {
                 // info de connexion credentials dans Jenkins
                 script {
@@ -54,13 +54,14 @@ pipeline {
                     }
                 }
             }
+        }
         // deploiement multi conteneurs avec docker compose
         stage('Deploy with Docker Compose') {
             steps {
                 //initialise le conteneur docker
                 script {
                     // construit les services
-                    bat 'docker-compose up -d --build --force-recreate --remove-orphans'
+                    bat 'docker compose up -d --build --force-recreate --remove-orphans'
                 }
             }
         }
@@ -70,18 +71,19 @@ pipeline {
                 bat 'mvn allure:report'
             }
         }
-        post {
-            always {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'target/allure-results']] // ? n'est pas dans target ici, faut-il :allure-results
-                    ])
-            }
-        }
+    }
 
+
+    post {
+        always {
+            allure([
+                includeProperties: false,
+                jdk: '',
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'target/allure-results']] // ? n'est pas dans target ici, faut-il :allure-results
+                ])
+        }
     }
 
 }
