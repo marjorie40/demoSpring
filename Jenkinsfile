@@ -4,7 +4,7 @@ pipeline {
     // nom image DockerHub
         registry = "marjorie40/apispringboot2026"
         registryCredential = 'DOCKERHUB_FORJ'
-        dockerImage = 'apispringboot2026'  //vide remplace
+        dockerImage = ''  //vide remplace
         }
         // decla des outils a utiliser par Jenkins
         tools {
@@ -32,7 +32,7 @@ pipeline {
         stage('Build Maven') {
             steps {
                 // package du projet -Dspring.profiles.active=jenkins
-                bat 'mvn clean package -Dspring.profiles.active=jenkins'
+                bat 'mvn clean package'
                 bat 'dir target' //verifier que le JAR est produit
             }
         }
@@ -73,8 +73,6 @@ pipeline {
             }
         }
     }
-
-
     post {
         always {
             allure([
